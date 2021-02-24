@@ -18,6 +18,7 @@ export const Header: React.FC = () => {
           size="small"
           variant="filled"
           label="Search in MartsTech"
+          InputProps={{ disableUnderline: true }}
         />
       </HeaderSearch>
       <HeaderRight>
@@ -81,7 +82,8 @@ const HeaderInput = styled(TextField)`
 
   > div > input {
     background-color: var(--header-search-color);
-    color: gray;
+    color: white;
+    border: none !important;
   }
 `;
 
