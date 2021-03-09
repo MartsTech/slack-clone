@@ -1,3 +1,4 @@
+import AddIcon from "@material-ui/icons/Add";
 import AppsIcon from "@material-ui/icons/Apps";
 import BookmarkBorderIcon from "@material-ui/icons/BookmarkBorder";
 import CreateIcon from "@material-ui/icons/Create";
@@ -12,9 +13,12 @@ import React from "react";
 import styled from "styled-components";
 import { SidebarOption } from "./SidebarOption";
 import { StatusBadge } from "./StatusBadge";
-import AddIcon from "@material-ui/icons/Add";
+import { useCollection } from "react-firebase-hooks/firestore";
+import { db } from "../firebase";
 
 export const Sidebar: React.FC = () => {
+  const [channels] = useCollection(db.collection("rooms"));
+
   return (
     <SidebarContainer>
       <SidebarHeader>
@@ -42,6 +46,10 @@ export const Sidebar: React.FC = () => {
       <SidebarOption Icon={ExpandMoreIcon} title="Channels" />
       <hr />
       <SidebarOption Icon={AddIcon} title="Add Channel" addChannelOption />
+
+      {channels?.docs.map((doc: any) => (
+        <SidebarOption key={doc.id} id={doc.id} title={doc.data().name} />
+      ))}
     </SidebarContainer>
   );
 };

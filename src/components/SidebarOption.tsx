@@ -1,20 +1,26 @@
 import { SvgIconTypeMap } from "@material-ui/core";
 import { OverridableComponent } from "@material-ui/core/OverridableComponent";
 import React from "react";
-import { db } from "../firebase";
+import { useDispatch } from "react-redux";
+import { enterRoom } from "src/features/roomSlice";
 import styled from "styled-components";
+import { db } from "../firebase";
 
 interface SidebarOptionProps {
   Icon?: OverridableComponent<SvgIconTypeMap<{}, "svg">>;
+  id?: string;
   title?: string;
   addChannelOption?: boolean;
 }
 
 export const SidebarOption: React.FC<SidebarOptionProps> = ({
   Icon,
+  id,
   title,
   addChannelOption,
 }) => {
+  const dispatch = useDispatch();
+
   const addChannel = () => {
     const channelName = prompt("Please enter the channel name");
 
@@ -25,7 +31,11 @@ export const SidebarOption: React.FC<SidebarOptionProps> = ({
     }
   };
 
-  const selectChannel = () => {};
+  const selectChannel = () => {
+    if (id) {
+      dispatch(enterRoom(id));
+    }
+  };
 
   return (
     <SidebarOptionContainer
@@ -64,4 +74,7 @@ const SidebarOptionContainer = styled.div`
   }
 `;
 
-const SidebarOptionChannel = styled.div``;
+const SidebarOptionChannel = styled.h3`
+  padding: 10px 0;
+  font-weight: 300;
+`;

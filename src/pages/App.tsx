@@ -6,19 +6,17 @@ import { Sidebar } from "../components/Sidebar";
 
 const App: React.FC = () => {
   return (
-    <div className="app">
-      <Router>
-        <>
-          <Header />
-          <AppBody>
-            <Sidebar />
-            <Switch>
-              <Route path="/" exact />
-            </Switch>
-          </AppBody>
-        </>
-      </Router>
-    </div>
+    <Router>
+      <>
+        <Header />
+        <AppBody>
+          <Sidebar />
+          <Switch>
+            <Route path="/" exact />
+          </Switch>
+        </AppBody>
+      </>
+    </Router>
   );
 };
 
