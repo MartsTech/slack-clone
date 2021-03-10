@@ -14,9 +14,11 @@ import styled from "styled-components";
 import { SidebarOption } from "./SidebarOption";
 import { StatusBadge } from "./StatusBadge";
 import { useCollection } from "react-firebase-hooks/firestore";
-import { db } from "../firebase";
+import { auth, db } from "../firebase";
+import { useAuthState } from "react-firebase-hooks/auth";
 
 export const Sidebar: React.FC = () => {
+  const [user] = useAuthState(auth);
   const [channels] = useCollection(db.collection("rooms"));
 
   return (
@@ -28,7 +30,7 @@ export const Sidebar: React.FC = () => {
             <SidebarStatus>
               <StatusBadge />
             </SidebarStatus>
-            Martin Velkov
+            {user?.displayName}
           </h3>
         </SidebarInfo>
         <CreateIcon />
