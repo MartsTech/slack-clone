@@ -1,6 +1,6 @@
 <h1 align="center">
   <a href="https://slack-clone-martstech.vercel.app">
-      <img width="200px" src="" alt="Slack Logo" />
+      <img width="200px" src="https://cdn.pling.com/img/5/f/a/f/e20d4a4b5d23357c5ace1844206c6b02e082e73231a16f9036cb8e3bf109d52816bd.png" alt="Slack Logo" />
   </a>
   <br />
   Slack Clone
