@@ -5,6 +5,7 @@ import { AppProps } from "next/app";
 import { ToastContainer } from "react-toastify";
 import { store, StoreContext } from "stores/store";
 import "styles/globals.css";
+import "react-toastify/dist/ReactToastify.min.css";
 
 const App = ({ Component, pageProps }: AppProps) => {
   return (
