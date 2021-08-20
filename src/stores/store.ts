@@ -23,6 +23,7 @@ export const useStore = () => {
 
 export const resetStore = () => {
   const { userStore, channelStore, messageStore } = store;
+
   userStore.reset();
   channelStore.reset();
   messageStore.reset();
