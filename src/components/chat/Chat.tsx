@@ -1,23 +1,27 @@
+import { observer } from "mobx-react-lite";
+import { useStore } from "stores/store";
 import styled from "styled-components";
 import ChatHeader from "./header/ChatHeader";
 import ChatInput from "./input/ChatInput";
 import ChatMessages from "./messages/ChatMessages";
-import ChatMessagesBottom from "./messages/ChatMessagesBottom";
-import ChatMessagesTop from "./messages/ChatMessagesTop";
 
 const Chat = () => {
+  const { selectedChannel } = useStore().channelStore;
+
+  if (!selectedChannel) {
+    return null;
+  }
+
   return (
     <StyledContainer>
       <ChatHeader />
-      <ChatMessagesTop />
       <ChatMessages />
-      <ChatMessagesBottom />
       <ChatInput />
     </StyledContainer>
   );
 };
 
-export default Chat;
+export default observer(Chat);
 
 const StyledContainer = styled.section`
   flex: 0.7;

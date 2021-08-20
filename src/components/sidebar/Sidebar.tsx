@@ -18,9 +18,7 @@ const Sidebar = () => {
 export default Sidebar;
 
 const StyledContainer = styled.section`
-  flex: 0.3;
-  max-width: 18rem;
-  min-width: 14rem;
+  width: 16rem;
   color: white;
   background-color: var(--slack-color);
   border-top: 1px solid var(--sidebar-color);
