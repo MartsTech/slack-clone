@@ -10,7 +10,7 @@ const HomePage = () => {
     if (channels.length === 0) {
       loadChannels();
     }
-  }, []);
+  }, [channels, loadChannels]);
 
   return (
     <IsAuth>
