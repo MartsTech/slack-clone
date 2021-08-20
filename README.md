@@ -41,8 +41,8 @@ Here is a working live demo [here](https://slack-clone-martstech.vercel.app)
 - Authentication
 - Real Time Messaging
 - Infinity Scrolling
-- Creating channels
-- SEO optimization
+- Create Channels
+- SEO Optimization
 
 ---
 
