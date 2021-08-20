@@ -26,7 +26,7 @@
   <a href="#license">License</a>
 </p>
 
-![Homepage Screenshot](public/screenshots/home.png?raw=true "Homepage Screenshot")
+![Home Screenshot](public/screenshots/home.png?raw=true "Home Screenshot")
 
 ---
 
