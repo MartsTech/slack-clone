@@ -1,13 +1,11 @@
 import HelpOutlinedIcon from "@material-ui/icons/HelpOutline";
 import styled from "styled-components";
 
-const HeaderOptions = () => {
-  return (
-    <StyledContainer>
-      <HelpOutlinedIcon />
-    </StyledContainer>
-  );
-};
+const HeaderOptions = () => (
+  <StyledContainer>
+    <HelpOutlinedIcon />
+  </StyledContainer>
+);
 
 export default HeaderOptions;
 

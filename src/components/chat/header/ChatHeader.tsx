@@ -2,14 +2,12 @@ import styled from "styled-components";
 import ChatHeaderInfo from "./ChatHeaderInfo";
 import ChatHeaderOptions from "./ChatHeaderOptions";
 
-const ChatHeader = () => {
-  return (
-    <StyledContainer>
-      <ChatHeaderInfo />
-      <ChatHeaderOptions />
-    </StyledContainer>
-  );
-};
+const ChatHeader = () => (
+  <StyledContainer>
+    <ChatHeaderInfo />
+    <ChatHeaderOptions />
+  </StyledContainer>
+);
 
 export default ChatHeader;
 

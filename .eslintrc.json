@@ -13,7 +13,28 @@
     "sourceType": "module"
   },
   "plugins": ["react", "@typescript-eslint"],
-  "rules": {},
+  "rules": {
+    "react/require-default-props": "off",
+    "react/jsx-fragments": "off",
+    "react/display-name": "off",
+    "react/jsx-props-no-spreading": "off",
+    "react/jsx-filename-extension": [1, { "extensions": [".tsx"] }],
+    "lines-between-class-members": "off",
+    "no-unused-vars": "off",
+    "no-unused-expressions": "off",
+    "no-shadow": "off",
+    "no-alert": "off",
+    "no-use-before-define": "off",
+    "import/no-cycle": "off",
+    "import/extensions": [
+      "error",
+      "ignorePackages",
+      {
+        "ts": "never",
+        "tsx": "never"
+      }
+    ]
+  },
   "settings": {
     "react": {
       "version": "latest"

@@ -1,5 +1,6 @@
 import { SvgIconTypeMap } from "@material-ui/core";
 import { OverridableComponent } from "@material-ui/core/OverridableComponent";
+import React from "react";
 import styled from "styled-components";
 
 interface SidebarOptionsItemProps {
@@ -12,16 +13,14 @@ const SidebarOptionItem: React.FC<SidebarOptionsItemProps> = ({
   title,
   Icon,
   onClick,
-}) => {
-  return (
-    <StyledContainer onClick={onClick}>
-      <StyledIconContainer>
-        <Icon fontSize="small" />
-      </StyledIconContainer>
-      <StyledTitle>{title}</StyledTitle>
-    </StyledContainer>
-  );
-};
+}) => (
+  <StyledContainer onClick={onClick}>
+    <StyledIconContainer>
+      <Icon fontSize="small" />
+    </StyledIconContainer>
+    <StyledTitle>{title}</StyledTitle>
+  </StyledContainer>
+);
 
 export default SidebarOptionItem;
 

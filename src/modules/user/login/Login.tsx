@@ -2,23 +2,21 @@ import Image from "next/image";
 import styled from "styled-components";
 import LoginSignInButton from "./LoginSignInButton";
 
-const Login = () => {
-  return (
-    <StyledWrapper>
-      <StyledContainer>
-        <Image
-          src="/images/logo.png"
-          height={100}
-          width={100}
-          objectFit="contain"
-          alt="logo"
-        />
-        <StyledTitle>Sign in now</StyledTitle>
-        <LoginSignInButton />
-      </StyledContainer>
-    </StyledWrapper>
-  );
-};
+const Login = () => (
+  <StyledWrapper>
+    <StyledContainer>
+      <Image
+        src="/images/logo.png"
+        height={100}
+        width={100}
+        objectFit="contain"
+        alt="logo"
+      />
+      <StyledTitle>Sign in now</StyledTitle>
+      <LoginSignInButton />
+    </StyledContainer>
+  </StyledWrapper>
+);
 
 export default Login;
 

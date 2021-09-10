@@ -4,16 +4,14 @@ import SidebarHeader from "./header/SidebarHeader";
 import SidebarOptions from "./options/SidebarOptions";
 import SidebarOptionsLoader from "./options/SidebarOptionsLoader";
 
-const Sidebar = () => {
-  return (
-    <StyledContainer>
-      <SidebarHeader />
-      <SidebarOptions />
-      <SidebarChannels />
-      <SidebarOptionsLoader />
-    </StyledContainer>
-  );
-};
+const Sidebar = () => (
+  <StyledContainer>
+    <SidebarHeader />
+    <SidebarOptions />
+    <SidebarChannels />
+    <SidebarOptionsLoader />
+  </StyledContainer>
+);
 
 export default Sidebar;
 

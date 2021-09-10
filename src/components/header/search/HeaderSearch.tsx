@@ -2,19 +2,17 @@ import { TextField } from "@material-ui/core";
 import SearchIcon from "@material-ui/icons/Search";
 import styled from "styled-components";
 
-const HeaderSearch = () => {
-  return (
-    <StyledContainer>
-      <SearchIcon />
-      <StyledInput
-        size="small"
-        variant="filled"
-        label="Search in MartsTech"
-        InputProps={{ disableUnderline: true }}
-      />
-    </StyledContainer>
-  );
-};
+const HeaderSearch = () => (
+  <StyledContainer>
+    <SearchIcon />
+    <StyledInput
+      size="small"
+      variant="filled"
+      label="Search in MartsTech"
+      InputProps={{ disableUnderline: true }}
+    />
+  </StyledContainer>
+);
 
 export default HeaderSearch;
 

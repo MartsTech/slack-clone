@@ -2,14 +2,12 @@ import CreateIcon from "@material-ui/icons/Create";
 import styled from "styled-components";
 import SidebarHeaderInfo from "./SidebarHeaderInfo";
 
-const SidebarHeader = () => {
-  return (
-    <StyledContainer>
-      <SidebarHeaderInfo />
-      <CreateIcon />
-    </StyledContainer>
-  );
-};
+const SidebarHeader = () => (
+  <StyledContainer>
+    <SidebarHeaderInfo />
+    <CreateIcon />
+  </StyledContainer>
+);
 
 export default SidebarHeader;
 

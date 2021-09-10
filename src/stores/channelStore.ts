@@ -1,3 +1,4 @@
+import { db } from "config/firebase";
 import {
   addDoc,
   collection,
@@ -12,8 +13,7 @@ import {
   serverTimestamp,
   startAfter,
   where,
-} from "@firebase/firestore";
-import { db } from "config/firebase";
+} from "firebase/firestore";
 import { makeAutoObservable, reaction } from "mobx";
 import { toast } from "react-toastify";
 import { Channel } from "types/channel";
@@ -160,7 +160,7 @@ class ChannelStore {
   };
 
   private channelExists = async (channelName: string) => {
-    let exists = !!this.channels.find(
+    const exists = !!this.channels.find(
       (channel) => channel.name === channelName
     );
 

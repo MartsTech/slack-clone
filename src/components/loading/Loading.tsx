@@ -3,27 +3,25 @@ import Image from "next/image";
 import ClipLoader from "react-spinners/ClipLoader";
 import styled from "styled-components";
 
-const Loading = () => {
-  return (
-    <NoSsr>
-      <StyledWrapper>
-        <StyledContainer>
-          <StyledImageContainer>
-            <Image
-              src="/images/logo.png"
-              height={100}
-              width={100}
-              objectFit="contain"
-              alt="logo"
-            />
-          </StyledImageContainer>
+const Loading = () => (
+  <NoSsr>
+    <StyledWrapper>
+      <StyledContainer>
+        <StyledImageContainer>
+          <Image
+            src="/images/logo.png"
+            height={100}
+            width={100}
+            objectFit="contain"
+            alt="logo"
+          />
+        </StyledImageContainer>
 
-          <ClipLoader color="purple" size={60} />
-        </StyledContainer>
-      </StyledWrapper>
-    </NoSsr>
-  );
-};
+        <ClipLoader color="purple" size={60} />
+      </StyledContainer>
+    </StyledWrapper>
+  </NoSsr>
+);
 
 export default Loading;
 

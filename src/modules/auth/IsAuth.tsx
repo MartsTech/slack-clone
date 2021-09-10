@@ -1,7 +1,7 @@
 import Loading from "components/loading/Loading";
 import { observer } from "mobx-react-lite";
 import { useRouter } from "next/router";
-import { useEffect } from "react";
+import React, { useEffect } from "react";
 import { useStore } from "stores/store";
 
 const IsAuth: React.FC = ({ children }) => {

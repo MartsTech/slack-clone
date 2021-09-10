@@ -1,9 +1,9 @@
+import { auth } from "config/firebase";
 import {
   GoogleAuthProvider,
   signInWithPopup,
   User as FirebaseUser,
-} from "@firebase/auth";
-import { auth } from "config/firebase";
+} from "firebase/auth";
 import { makeAutoObservable } from "mobx";
 import { toast } from "react-toastify";
 import { User } from "types/user";

@@ -3,15 +3,13 @@ import HeaderInfo from "./info/HeaderInfo";
 import HeaderOptions from "./options/HeaderOptions";
 import HeaderSearch from "./search/HeaderSearch";
 
-const Header = () => {
-  return (
-    <StyledHeader>
-      <HeaderInfo />
-      <HeaderSearch />
-      <HeaderOptions />
-    </StyledHeader>
-  );
-};
+const Header = () => (
+  <StyledHeader>
+    <HeaderInfo />
+    <HeaderSearch />
+    <HeaderOptions />
+  </StyledHeader>
+);
 
 export default Header;
 

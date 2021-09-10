@@ -1,3 +1,4 @@
+import { db } from "config/firebase";
 import {
   addDoc,
   collection,
@@ -12,8 +13,7 @@ import {
   QuerySnapshot,
   serverTimestamp,
   startAfter,
-} from "@firebase/firestore";
-import { db } from "config/firebase";
+} from "firebase/firestore";
 import { makeAutoObservable } from "mobx";
 import { toast } from "react-toastify";
 import { Message } from "types/message";
@@ -132,7 +132,7 @@ class MessageStore {
   };
 
   sendMessage = (message: string) => {
-    const user = store.userStore.user;
+    const { user } = store.userStore;
     const channel = store.channelStore.selectedChannel;
 
     if (!user || !channel) {

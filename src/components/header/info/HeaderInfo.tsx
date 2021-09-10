@@ -2,14 +2,12 @@ import AccessTimeIcon from "@material-ui/icons/AccessTime";
 import styled from "styled-components";
 import HeaderInfoAvatar from "./HeaderInfoAvatar";
 
-const HeaderInfo = () => {
-  return (
-    <StyledContainer>
-      <HeaderInfoAvatar />
-      <AccessTimeIcon />
-    </StyledContainer>
-  );
-};
+const HeaderInfo = () => (
+  <StyledContainer>
+    <HeaderInfoAvatar />
+    <AccessTimeIcon />
+  </StyledContainer>
+);
 
 export default HeaderInfo;
 

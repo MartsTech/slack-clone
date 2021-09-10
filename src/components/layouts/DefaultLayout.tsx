@@ -3,17 +3,15 @@ import Sidebar from "components/sidebar/Sidebar";
 import React from "react";
 import styled from "styled-components";
 
-const DefaultLayout: React.FC = ({ children }) => {
-  return (
-    <StyledWrapper>
-      <Header />
-      <StyledBody>
-        <Sidebar />
-        {children}
-      </StyledBody>
-    </StyledWrapper>
-  );
-};
+const DefaultLayout: React.FC = ({ children }) => (
+  <StyledWrapper>
+    <Header />
+    <StyledBody>
+      <Sidebar />
+      {children}
+    </StyledBody>
+  </StyledWrapper>
+);
 
 export default DefaultLayout;
 

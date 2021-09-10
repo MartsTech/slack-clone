@@ -1,15 +1,13 @@
 import styled from "styled-components";
 import InfoOutlinedIcon from "@material-ui/icons/InfoOutlined";
 
-const ChatHeaderOptions = () => {
-  return (
-    <StyledContainer>
-      <StyledOption>
-        <InfoOutlinedIcon /> Details
-      </StyledOption>
-    </StyledContainer>
-  );
-};
+const ChatHeaderOptions = () => (
+  <StyledContainer>
+    <StyledOption>
+      <InfoOutlinedIcon /> Details
+    </StyledOption>
+  </StyledContainer>
+);
 
 export default ChatHeaderOptions;
 

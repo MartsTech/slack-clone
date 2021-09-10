@@ -23,7 +23,7 @@ const ChatMessages = () => {
         hasMore={hasMore}
         loader={<h4>Loading...</h4>}
         style={{ display: "flex", flexDirection: "column-reverse" }}
-        inverse={true}
+        inverse
         scrollableTarget="scrollableDiv"
       >
         {messages.map((message) => (
