@@ -1,5 +1,19 @@
+import {
+  addDoc,
+  collection,
+  DocumentData,
+  FieldValue,
+  getDocs,
+  limit,
+  onSnapshot,
+  orderBy,
+  query,
+  QuerySnapshot,
+  serverTimestamp,
+  startAfter,
+  where,
+} from "@firebase/firestore";
 import { db } from "config/firebase";
-import firebase from "firebase/app";
 import { makeAutoObservable, reaction } from "mobx";
 import { toast } from "react-toastify";
 import { Channel } from "types/channel";
@@ -10,7 +24,7 @@ class ChannelStore {
   selectedChannel: Channel | null = null;
   channelsLimit = 6;
   hasMore = false;
-  lastChannelTimestamp: firebase.firestore.FieldValue | null = null;
+  lastChannelTimestamp: FieldValue | null = null;
   unsubscribeChannelsSnapshot?: () => void;
 
   constructor() {
@@ -33,10 +47,8 @@ class ChannelStore {
     this.hasMore = false;
     this.lastChannelTimestamp = null;
 
-    if (this.unsubscribeChannelsSnapshot) {
-      this.unsubscribeChannelsSnapshot();
-      this.unsubscribeChannelsSnapshot = undefined;
-    }
+    this.unsubscribeChannelsSnapshot && this.unsubscribeChannelsSnapshot();
+    this.unsubscribeChannelsSnapshot = undefined;
   };
 
   get channels() {
@@ -46,44 +58,66 @@ class ChannelStore {
   }
 
   loadChannels = () => {
-    this.unsubscribeChannelsSnapshot = db
-      .collection("channels")
-      .orderBy("timestamp", "desc")
-      .limit(this.channelsLimit)
-      .onSnapshot((snapshot) => {
-        this.setChannelsFromSnapshot(snapshot);
-      });
+    if (this.channelsRegistery.size !== 0) {
+      return;
+    }
+
+    const channelsQuery = query(
+      collection(db, "channels"),
+      orderBy("timestamp", "desc"),
+      limit(this.channelsLimit)
+    );
+
+    this.unsubscribeChannelsSnapshot = onSnapshot(channelsQuery, (snapshot) => {
+      this.setChannelsFromSnapshot(snapshot);
+    });
   };
 
   loadMore = async () => {
-    const chatsSnapshot = await db
-      .collection("channels")
-      .orderBy("timestamp", "desc")
-      .startAfter(this.lastChannelTimestamp)
-      .limit(this.channelsLimit)
-      .get();
+    if (!this.hasMore) {
+      return;
+    }
 
-    this.setChannelsFromSnapshot(chatsSnapshot);
+    const channelsQuery = query(
+      collection(db, "channels"),
+      orderBy("timestamp", "desc"),
+      startAfter(this.lastChannelTimestamp),
+      limit(this.channelsLimit)
+    );
+
+    const channelsSnapshot = await getDocs(channelsQuery);
+    this.setChannelsFromSnapshot(channelsSnapshot);
   };
 
-  private setChannelsFromSnapshot = (
-    channelsSnapshot: firebase.firestore.QuerySnapshot<firebase.firestore.DocumentData>
-  ) => {
-    if (channelsSnapshot.size < this.channelsLimit) {
+  private setChannelsFromSnapshot = (snapshot: QuerySnapshot<DocumentData>) => {
+    if (snapshot.size < this.channelsLimit) {
       this.hasMore = false;
     } else {
       this.hasMore = true;
     }
 
-    channelsSnapshot.docs.forEach((doc) => {
-      if (!this.channelsRegistery.has(doc.id)) {
+    snapshot.docs.forEach((doc) => {
+      if (!this.lastChannelTimestamp) {
         this.lastChannelTimestamp = doc.data().timestamp;
+      } else {
+        const lastTimestamp = new Date(
+          // @ts-ignore
+          this.lastChannelTimestamp?.toDate()
+        ).getTime();
+
+        const currentTimestamp = new Date(
+          doc.data().timestamp?.toDate()
+        ).getTime();
+
+        if (currentTimestamp < lastTimestamp) {
+          this.lastChannelTimestamp = doc.data().timestamp;
+        }
       }
 
       const channel = {
         id: doc.id,
         name: doc.data().name,
-        timestamp: doc.data().timestamp?.toDate(),
+        timestamp: new Date(doc.data().timestamp?.toDate()),
       } as Channel;
 
       this.channelsRegistery.set(channel.id, channel);
@@ -119,9 +153,9 @@ class ChannelStore {
       return;
     }
 
-    db.collection("channels").add({
+    await addDoc(collection(db, "channels"), {
       name: channelName,
-      timestamp: firebase.firestore.FieldValue.serverTimestamp(),
+      timestamp: serverTimestamp(),
     });
   };
 
@@ -134,13 +168,14 @@ class ChannelStore {
       return true;
     }
 
-    const channelsSnapshot = await db.collection("channels").get();
-
-    exists = !!channelsSnapshot.docs.find(
-      (doc) => doc.data().name === channelName
+    const channelsQuery = query(
+      collection(db, "channels"),
+      where("name", "==", channelName)
     );
 
-    if (exists) {
+    const channelsSnapshot = await getDocs(channelsQuery);
+
+    if (!channelsSnapshot.empty) {
       return true;
     }
 

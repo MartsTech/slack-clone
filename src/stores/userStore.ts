@@ -1,5 +1,10 @@
-import { auth, provider } from "config/firebase";
-import { makeAutoObservable, runInAction } from "mobx";
+import {
+  GoogleAuthProvider,
+  signInWithPopup,
+  User as FirebaseUser,
+} from "@firebase/auth";
+import { auth } from "config/firebase";
+import { makeAutoObservable } from "mobx";
 import { toast } from "react-toastify";
 import { User } from "types/user";
 import { resetStore } from "./store";
@@ -18,34 +23,32 @@ class UserStore {
   };
 
   signIn = () => {
-    this.loading = true;
-
-    auth
-      .signInWithPopup(provider)
+    signInWithPopup(auth, new GoogleAuthProvider())
       .then(({ user }) => {
-        if (user) {
-          runInAction(() => {
-            this.user = {
-              displayName: user.displayName!,
-              photoURL: user.photoURL!,
-            };
-          });
-        }
+        this.setUser(user);
       })
       .catch((error) => {
         toast.error(error.message);
       });
-
-    this.loading = false;
   };
 
   signOut = () => {
-    auth.signOut();
-    resetStore();
+    if (this.user) {
+      auth.signOut();
+      resetStore();
+    }
   };
 
-  setUser = (user: User | null) => {
-    this.user = user;
+  setUser = (user: FirebaseUser | null) => {
+    if (user) {
+      this.user = {
+        displayName: user.displayName!,
+        photoURL: user.photoURL!,
+      };
+    } else {
+      this.user = null;
+    }
+
     this.loading = false;
   };
 }

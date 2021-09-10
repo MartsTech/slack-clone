@@ -1,5 +1,19 @@
+import {
+  addDoc,
+  collection,
+  doc,
+  DocumentData,
+  FieldValue,
+  getDocs,
+  limit,
+  onSnapshot,
+  orderBy,
+  query,
+  QuerySnapshot,
+  serverTimestamp,
+  startAfter,
+} from "@firebase/firestore";
 import { db } from "config/firebase";
-import firebase from "firebase/app";
 import { makeAutoObservable } from "mobx";
 import { toast } from "react-toastify";
 import { Message } from "types/message";
@@ -9,7 +23,7 @@ class MessageStore {
   messagesRegistery = new Map<string, Message>();
   messagesLimit = 10;
   hasMore = false;
-  lastMessageTimestamp: firebase.firestore.FieldValue | null = null;
+  lastMessageTimestamp: FieldValue | null = null;
   unsubscribeMessagesSnapshot?: () => void;
 
   constructor() {
@@ -22,10 +36,8 @@ class MessageStore {
     this.hasMore = false;
     this.lastMessageTimestamp = null;
 
-    if (this.unsubscribeMessagesSnapshot) {
-      this.unsubscribeMessagesSnapshot();
-      this.unsubscribeMessagesSnapshot = undefined;
-    }
+    this.unsubscribeMessagesSnapshot && this.unsubscribeMessagesSnapshot();
+    this.unsubscribeMessagesSnapshot = undefined;
   };
 
   get messages() {
@@ -34,25 +46,29 @@ class MessageStore {
       .reverse();
   }
 
-  loadMessages = (id: string) => {
+  loadMessages = async (id: string) => {
     this.messagesRegistery.clear();
+    this.unsubscribeMessagesSnapshot && this.unsubscribeMessagesSnapshot();
 
-    if (this.unsubscribeMessagesSnapshot) {
-      this.unsubscribeMessagesSnapshot();
-    }
+    const channelRef = doc(db, "channels", id);
+    const messagesRef = collection(channelRef, "messages");
 
-    this.unsubscribeMessagesSnapshot = db
-      .collection("channels")
-      .doc(id)
-      .collection("messages")
-      .orderBy("timestamp", "desc")
-      .limit(this.messagesLimit)
-      .onSnapshot((snapshot) => {
-        this.setMessagesFromSnapshot(snapshot);
-      });
+    const messagesQuery = query(
+      messagesRef,
+      orderBy("timestamp", "desc"),
+      limit(this.messagesLimit)
+    );
+
+    this.unsubscribeMessagesSnapshot = onSnapshot(messagesQuery, (snapshot) => {
+      this.setMessagesFromSnapshot(snapshot);
+    });
   };
 
   loadMore = async () => {
+    if (!this.hasMore) {
+      return;
+    }
+
     const { selectedChannel } = store.channelStore;
 
     if (!selectedChannel) {
@@ -60,28 +76,28 @@ class MessageStore {
       return;
     }
 
-    const messagesSnapshot = await db
-      .collection("channels")
-      .doc(selectedChannel.id)
-      .collection("messages")
-      .orderBy("timestamp", "desc")
-      .startAfter(this.lastMessageTimestamp)
-      .limit(this.messagesLimit)
-      .get();
+    const channelRef = doc(db, "channels", selectedChannel.id);
+    const messagesRef = collection(channelRef, "messages");
 
+    const messagesQuery = query(
+      messagesRef,
+      orderBy("timestamp", "desc"),
+      startAfter(this.lastMessageTimestamp),
+      limit(this.messagesLimit)
+    );
+
+    const messagesSnapshot = await getDocs(messagesQuery);
     this.setMessagesFromSnapshot(messagesSnapshot);
   };
 
-  private setMessagesFromSnapshot = (
-    messagesSnapshot: firebase.firestore.QuerySnapshot<firebase.firestore.DocumentData>
-  ) => {
-    if (messagesSnapshot.size < this.messagesLimit) {
+  private setMessagesFromSnapshot = (snapshot: QuerySnapshot<DocumentData>) => {
+    if (snapshot.size < this.messagesLimit) {
       this.hasMore = false;
     } else {
       this.hasMore = true;
     }
 
-    messagesSnapshot.docs.forEach((doc) => {
+    snapshot.docs.forEach((doc) => {
       if (this.messagesRegistery.has(doc.id)) {
         return;
       }
@@ -89,9 +105,14 @@ class MessageStore {
       if (!this.lastMessageTimestamp) {
         this.lastMessageTimestamp = doc.data().timestamp;
       } else {
-        // @ts-ignore
-        const lastTimestamp = this.lastMessageTimestamp?.toDate()?.getTime();
-        const currentTimestamp = doc.data().timestamp?.toDate()?.getTime();
+        const lastTimestamp = new Date(
+          // @ts-ignore
+          this.lastMessageTimestamp?.toDate()
+        ).getTime();
+
+        const currentTimestamp = new Date(
+          doc.data().timestamp?.toDate()
+        ).getTime();
 
         if (currentTimestamp < lastTimestamp) {
           this.lastMessageTimestamp = doc.data().timestamp;
@@ -103,7 +124,7 @@ class MessageStore {
         message: doc.data().message,
         user: doc.data().user,
         photoURL: doc.data().photoURL,
-        timestamp: doc.data().timestamp?.toDate(),
+        timestamp: new Date(doc.data().timestamp?.toDate()),
       } as Message;
 
       this.messagesRegistery.set(message.id, message);
@@ -119,13 +140,14 @@ class MessageStore {
       return false;
     }
 
-    const channelRef = db.collection("channels").doc(channel.id);
+    const channelRef = doc(db, "channels", channel.id);
+    const messagesRef = collection(channelRef, "messages");
 
-    channelRef.collection("messages").add({
+    addDoc(messagesRef, {
       message,
       user: user.displayName,
       photoURL: user.photoURL,
-      timestamp: firebase.firestore.FieldValue.serverTimestamp(),
+      timestamp: serverTimestamp(),
     });
 
     return true;

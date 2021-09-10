@@ -1,7 +1,6 @@
 import { NoSsr } from "@material-ui/core";
-// @ts-ignore
-import { Circle } from "better-react-spinkit";
 import Image from "next/image";
+import ClipLoader from "react-spinners/ClipLoader";
 import styled from "styled-components";
 
 const Loading = () => {
@@ -9,14 +8,17 @@ const Loading = () => {
     <NoSsr>
       <StyledWrapper>
         <StyledContainer>
-          <Image
-            src="/images/logo.png"
-            height={100}
-            width={100}
-            objectFit="contain"
-            alt="logo"
-          />
-          <StyledCircle color="purple" size={60} />
+          <StyledImageContainer>
+            <Image
+              src="/images/logo.png"
+              height={100}
+              width={100}
+              objectFit="contain"
+              alt="logo"
+            />
+          </StyledImageContainer>
+
+          <ClipLoader color="purple" size={60} />
         </StyledContainer>
       </StyledWrapper>
     </NoSsr>
@@ -38,6 +40,6 @@ const StyledContainer = styled.div`
   align-items: center;
 `;
 
-const StyledCircle = styled(Circle)`
-  margin-top: 1rem;
+const StyledImageContainer = styled.div`
+  margin-bottom: 1rem;
 `;
