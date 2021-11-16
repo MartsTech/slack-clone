@@ -18,6 +18,8 @@
     "react/jsx-fragments": "off",
     "react/display-name": "off",
     "react/jsx-props-no-spreading": "off",
+    "react/function-component-definition": "off",
+    "react/jsx-no-useless-fragment": "off",
     "react/jsx-filename-extension": [1, { "extensions": [".tsx"] }],
     "lines-between-class-members": "off",
     "no-unused-vars": "off",
@@ -25,6 +27,7 @@
     "no-shadow": "off",
     "no-alert": "off",
     "no-use-before-define": "off",
+    "no-unsafe-optional-chaining": "off",
     "import/no-cycle": "off",
     "import/extensions": [
       "error",
