@@ -1,7 +1,5 @@
 <h1 align="center">
-  <a href="https://slack-clone-martstech.vercel.app">
-      <img width="200px" src="https://cdn.pling.com/img/5/f/a/f/e20d4a4b5d23357c5ace1844206c6b02e082e73231a16f9036cb8e3bf109d52816bd.png" alt="Slack Logo" />
-  </a>
+  <img width="200px" src="https://upload.wikimedia.org/wikipedia/commons/thumb/b/b9/Slack_Technologies_Logo.svg/1920px-Slack_Technologies_Logo.svg.png" alt="Slack Logo" />
   <br />
   Slack Clone
   <br />
@@ -18,7 +16,6 @@
 </p>
 
 <p align="center">
-  <a href="#demo">Demo</a> •
   <a href="#key-features">Key Features</a> •
   <a href="#key-technologies">Key Technologies</a> •
   <a href="#setup">Setup</a> •
@@ -27,12 +24,6 @@
 </p>
 
 ![Home Screenshot](public/screenshots/home.png?raw=true "Home Screenshot")
-
----
-
-## Demo
-
-Here is a working live demo [here](https://slack-clone-martstech.vercel.app)
 
 ---
 
